@@ -7,6 +7,7 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, Cropping2D,MaxPooling2D, Dropout, Activation
 from keras.layers.convolutional import Convolution2D
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 #load CSV
 lines = []
@@ -45,7 +46,7 @@ def generator(samples, batch_size=32):
                     else:
                         current_path = './data/IMG/'+batch_sample[i].split('\\')[-1] 
 #                        print (name[1], current_path)
-                    image = cv2.imread(current_path)
+                    image = mpimg.imread(current_path)
                     measurement = float(batch_sample[3])  
                     if i == 1:
                         measurement = measurement + correction1
@@ -53,13 +54,17 @@ def generator(samples, batch_size=32):
                         measurement = measurement - correction2
                     images.append(image)
                     measurements.append(measurement)
+
+                    # save example images
+                    image_save = cv2.imread(current_path)
                     if i==1:
-                        cv2.imwrite("image1.png",image)
+                        cv2.imwrite("image1.png",image_save)
                     elif i==2:
-                        cv2.imwrite("image2.png",image)
+                        cv2.imwrite("image2.png",image_save)
                     else:
-                        cv2.imwrite("image0.png",image)
-   
+                        cv2.imwrite("image0.png",image_save)
+
+
             #augment the data by flipping the images and taking the opposite sign of the measurements
             augmented_images, augmented_measurements = [], []
             for image, measurement in zip(images, measurements):
@@ -67,7 +72,12 @@ def generator(samples, batch_size=32):
                 augmented_measurements.append(measurement)
                 augmented_images.append(cv2.flip(image,1))
                 augmented_measurements.append(measurement*-1.0)
-                cv2.imwrite("flip.png",cv2.flip(image,1))
+                
+            # save example images
+            image_save = cv2.imread(current_path)
+            cv2.imwrite("image3.png",image_save)
+            cv2.imwrite("image4.png",cv2.flip(image_save,1))
+
             #create numpy arrays
             X_train = np.array(augmented_images)
             y_train = np.array(augmented_measurements)
@@ -114,6 +124,6 @@ model.add(Dense(1)) # The output is only the steering angle.
 model.compile(loss='mse', optimizer='adam')
 history_object = model.fit_generator(train_generator, samples_per_epoch= 
             len(train_samples), validation_data=validation_generator, 
-            nb_val_samples=len(validation_samples), nb_epoch=10, verbose=1)
+            nb_val_samples=len(validation_samples), nb_epoch=12, verbose=1)
 
 model.save('model.h5')
