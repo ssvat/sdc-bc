@@ -72,46 +72,141 @@
                 <p>#Behavioral Cloning</p>
 <p>Behavioral Cloning Project</p>
 <p>The goals / steps of this project are the following:</p>
-<p>Use the simulator to collect data of good driving behavior
-Build, a convolution neural network in Keras that predicts steering angles from images
-Train and validate the model with a training and validation set
-Test that the model successfully drives around track one without leaving the road
-Summarize the results with a written report
-###Files Submitted</p>
+<ol>
+<li>Use the udacity data and the simulator to collect data of good driving behavior</li>
+<li>Build, a convolution neural network in Keras that predicts steering angles from images</li>
+<li>Train and validate the model with a training and validation set</li>
+<li>Test that the model successfully drives around track one without leaving the road</li>
+<li>Summarize the results with a written report</li>
+</ol>
+<p>###Files Submitted</p>
 <p>My project includes the following files:</p>
-<p>model.py containing the script to create and train the model
-drive.py for driving the car in autonomous mode
-model.h5 containing a trained convolution neural network
-writeup.md summarizing the results
-####2. Submission includes functional code Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing</p>
-<p>python drive.py model.h5
-####3. Submission code</p>
-<p>The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.</p>
+<ol>
+<li>model.py containing the script to create and train the model</li>
+<li>drive.py for driving the car in autonomous mode</li>
+<li>model.h5 containing a trained convolution neural network</li>
+<li>writeup.md summarizing the results</li>
+<li>run1.mp4 containing the automonous car driving on the track 1</li>
+</ol>
+<p>####Submission includes functional code</p>
+<p>Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing python drive.py model.h5</p>
+<p>####Submission code</p>
+<p>The model.py file contains the code for training and saving the convolution neural network.
+The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.</p>
 <p>###Model Architecture and Training Strategy</p>
-<p>####1. An appropriate model architecture has been employed</p>
-<p>My model consists of a convolution neural network with 5x5 and 3x3 filter sizes and depths between 24 and 64.</p>
-<p>The model includes RELU layers to introduce nonlinearity, and the data is normalized in the model using a Keras lambda layer (code line 18).</p>
-<p>####2. Attempts to reduce overfitting in the model</p>
-<p>The model contains dropout layers in order to reduce overfitting (model.py lines 21).</p>
-<p>The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.</p>
-<p>####3. Model parameter tuning</p>
+<p>####An appropriate model architecture has been employed</p>
+<p>My model consists of a convolution neural network with 5x5 and 3x3 filter sizes and depths between 24 and 64.
+The model includes RELU layers to introduce nonlinearity, and the data is normalized in the model using a Keras lambda layer (code line 18).</p>
+<p>####Attempts to reduce overfitting in the model</p>
+<p>The model contains dropout layers in order to reduce overfitting (model.py lines 21).
+The model was trained and validated on different data sets to ensure that the model was not overfitting.
+The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.</p>
+<p>####Model parameter tuning</p>
 <p>The model used an adam optimizer, so the learning rate was not tuned manually.</p>
-<p>####4. Appropriate training data</p>
-<p>Training data from both udacity and simulator have been chosen to keep the vehicle driving on the road. For details about how I created the training data, see the next section.</p>
+<p>####Appropriate training data</p>
+<p>Training data from both udacity and simulator have been chosen to keep the vehicle driving on the road.
+For details about how I created the training data, see the next section.</p>
 <p>###Model Architecture and Training Strategy</p>
-<p>####1. Solution Design Approach</p>
-<p>The overall strategy for deriving a model architecture was to have the autonomous car finish the track 1.</p>
-<p>My first step was to use a convolution neural network model similar to the NVIDIA architecture. I thought this model might be appropriate because it sucessfully deliver the solution.</p>
+<p>####Solution Design Approach</p>
+<p>The overall strategy for deriving a model architecture was to have the autonomous car finish the track 1.
+My first step was to use a convolution neural network model similar to the NVIDIA architecture.
+I thought this model might be appropriate because it sucessfully deliver the solution.</p>
 <p>In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set.
 In the beginning, the mean squared error of training and validation data is low but the car in autonomous mode did not drive well.
 Also just in case of any overfitting, I have modified the model by adding a dropout of 25%.</p>
 <p>The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track.
 To improve the driving behavior in these cases, I delete training data from simulator on my local computer and just used data from Udacity.</p>
 <p>At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.</p>
-<p>####2. Final Model Architecture</p>
+<p>####Final Model Architecture</p>
 <p>The final model architecture (model.py lines 18-24) consisted of a convolution neural network. So there are 4 convolution layers and 3 fully connected layers.
 I have normalization using a lambda layer and chose area of interest by cropping images.</p>
-<p>####3. Creation of the Training Set &amp; Training Process</p>
+<p>Layer	        Description
+Input	        160x320x3 RGB image
+Lambda          normalization
+Cropping        area of interest
+Convolution     (RELU, outputs 24,5,5)
+Max pooling
+Convolution     (RELU, outputs 36,5,5)
+Max pooling
+Convolution     (RELU, outputs 48,5,5)
+Max pooling
+Convolution     (RELU, outputs 64,3,3)
+Flatten
+Fully connected	(Dense, outputs 150)
+Fully connected	(Dense, outputs 50)
+Fully connected	(Dense, outputs 10)
+Fully connected	(Dense, outputs 1: steering angle)</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th align="center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input</td>
+<td align="center">160x320x3 RGB image</td>
+</tr>
+<tr>
+<td>Lambda</td>
+<td align="center">normalization</td>
+</tr>
+<tr>
+<td>Cropping</td>
+<td align="center">area of interest</td>
+</tr>
+<tr>
+<td>Convolution</td>
+<td align="center">(RELU, outputs 24,5,5)</td>
+</tr>
+<tr>
+<td>Max pooling</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>Convolution</td>
+<td align="center">(RELU, outputs 36,5,5)</td>
+</tr>
+<tr>
+<td>Max pooling</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>Convolution</td>
+<td align="center">(RELU, outputs 48,5,5)</td>
+</tr>
+<tr>
+<td>Max pooling</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>Convolution</td>
+<td align="center">(RELU, outputs 64,3,3)</td>
+</tr>
+<tr>
+<td>Flatten</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td>Fully connected</td>
+<td align="center">(Dense, outputs 150)</td>
+</tr>
+<tr>
+<td>Fully connected</td>
+<td align="center">(Dense, outputs  50)</td>
+</tr>
+<tr>
+<td>Fully connected</td>
+<td align="center">(Dense, outputs  10)</td>
+</tr>
+<tr>
+<td>Fully connected</td>
+<td align="center">(Dense, outputs   1: steering angle)</td>
+</tr>
+</tbody>
+</table>
+<p>####Creation of the Training Set &amp; Training Process</p>
 <p>To capture good driving behavior, I used the udacity data and added a few laps on track one using center lane driving.
 Here is an example image of center lane driving:</p>
 <p><a href="image0.png" target="_blank"><img src="image0.png" alt="alt text" style="max-width:100%;"></a></p>
@@ -125,14 +220,14 @@ For example, here is an image that has then been flipped:</p>
 <p>After the collection process, I had 6428 number of data points.</p>
 <p>I finally randomly shuffled the data set and put 20% of the data into a validation set.</p>
 <p>I used this training data for training the model. The validation set helped determine if the model was over or under fitting.
-The ideal number of epochs was 10 as evidenced by the video. I used an adam optimizer so that manually training the learning rate wasn't necessary.
+The ideal number of epochs was 12 as evidenced by the video. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 I have had train several runs of 20,0000 number of data points for 2 weeks on the simulator.
 However, the data did not imporve the training so I removed the data and re-trained again with Udacity data after a few weeks.
 It may be because of a keyboard was used instead of a less sensitve mouse due to limited resources of personal computer system and accessories.
 A better mouse or a game controller can be used in the future to ensure the steering angles with smooth values.
 Besides the numbers of epoch, size of batch, the camera correction factor has been experimented with different values, as well as different training network.
 I think the training data dominates the result.
-When I generate more data (conuterclockwise, clockwise, turns), the result did not improve and may become worse (loss &gt;0.3).
+When I generate more data (conuterclockwise, clockwise, turns), the result did not improve and may become worse (loss &gt;0.03).
 Again, this may be due to the driving data, generated by the simulator under limited computer resources.
 Therefore, the udacity data (loss &lt;0.02) produce best result to finish the track 1 compared to local trainning data from me.
 Also, sometime I found even the loss is higher for a certain epoch but the car can drive longer and better.
